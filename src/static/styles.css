@@ -1,16 +1,16 @@
 /* Color palette */
 :root {
-  /* Primary colors */
-  --primary: #1a237e;
-  --primary-light: #534bae;
-  --primary-dark: #000051;
+  /* Primary colors - school colors: lime green and white */
+  --primary: #39a845;
+  --primary-light: #5ec96a;
+  --primary-dark: #1e7a2e;
   --primary-text: #ffffff;
 
   /* Secondary colors */
-  --secondary: #ff6f00;
-  --secondary-light: #ffa040;
-  --secondary-dark: #c43e00;
-  --secondary-text: #ffffff;
+  --secondary: #ffffff;
+  --secondary-light: #f0fff0;
+  --secondary-dark: #c8e6c9;
+  --secondary-text: #1e7a2e;
 
   /* Neutral colors */
   --background: #f5f5f5;
@@ -195,8 +195,8 @@ section h3 {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: #e8eaf6;
-  color: #3949ab;
+  background: #e8f5e9;
+  color: #1e7a2e;
   font-size: 0.65rem;
   font-weight: bold;
   padding: 2px 6px;
@@ -269,14 +269,14 @@ section h3 {
 
 /* Buttons */
 .register-button {
-  background: linear-gradient(145deg, var(--secondary), var(--secondary-dark));
-  color: var(--secondary-text);
+  background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color: var(--primary-text);
   margin-top: 10px;
   padding: 6px 12px;
   width: 100%;
   font-weight: bold;
   border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(255, 111, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(57, 168, 69, 0.2);
   transition: all 0.3s ease;
   display: flex;
   justify-content: center;
@@ -612,7 +612,72 @@ footer {
   }
 }
 
-/* User controls in header */
+/* Git branch background canvas */
+#git-branches-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Mascots in header */
+.mascots-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mascot {
+  position: absolute;
+  height: 80px;
+  width: auto;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+
+.mascot-left {
+  left: 10px;
+}
+
+.mascot-left2 {
+  left: 100px;
+}
+
+.mascot-right {
+  right: 10px;
+}
+
+.mascot-right2 {
+  right: 100px;
+}
+
+@media (max-width: 767px) {
+  .mascot-left2,
+  .mascot-right2 {
+    display: none;
+  }
+  .mascot-left {
+    left: 5px;
+  }
+  .mascot-right {
+    right: 5px;
+  }
+  .mascot {
+    height: 55px;
+  }
+}
+
+
 #user-controls {
   position: absolute;
   top: 10px;

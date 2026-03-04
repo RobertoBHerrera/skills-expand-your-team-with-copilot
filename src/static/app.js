@@ -866,3 +866,108 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeFilters();
   fetchActivities();
 });
+
+// Animated Git-style branch lines background
+document.addEventListener("DOMContentLoaded", function initGitBranchAnimation() {
+  const canvas = document.getElementById("git-branches-canvas");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Colors matching school lime green theme
+  const BRANCH_COLORS = [
+    "rgba(46, 125, 50, 0.35)",
+    "rgba(96, 173, 94, 0.25)",
+    "rgba(0, 80, 5, 0.20)",
+    "rgba(57, 211, 83, 0.18)",
+  ];
+
+  const NODE_COLOR = "rgba(46, 125, 50, 0.55)";
+  const NUM_BRANCHES = 6;
+
+  // A branch is a flowing line that moves downward with horizontal offsets
+  function createBranch() {
+    const x = Math.random() * window.innerWidth;
+    return {
+      x,
+      y: -50,
+      color: BRANCH_COLORS[Math.floor(Math.random() * BRANCH_COLORS.length)],
+      speed: 0.4 + Math.random() * 0.6,
+      segments: [],
+      nextSegmentY: 0,
+      // occasional merge/split offset
+      drift: (Math.random() - 0.5) * 0.4,
+      nodes: [],
+    };
+  }
+
+  let branches = [];
+  for (let i = 0; i < NUM_BRANCHES; i++) {
+    const b = createBranch();
+    b.y = Math.random() * window.innerHeight; // stagger start
+    branches.push(b);
+  }
+
+  function drawBranch(b) {
+    if (b.segments.length < 2) return;
+    ctx.beginPath();
+    ctx.strokeStyle = b.color;
+    ctx.lineWidth = 2;
+    ctx.moveTo(b.segments[0].x, b.segments[0].y);
+    for (let i = 1; i < b.segments.length; i++) {
+      const prev = b.segments[i - 1];
+      const curr = b.segments[i];
+      // Draw horizontal then vertical segments (git-style)
+      ctx.lineTo(curr.x, prev.y);
+      ctx.lineTo(curr.x, curr.y);
+    }
+    ctx.stroke();
+
+    // Draw commit nodes
+    b.nodes.forEach((node) => {
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = NODE_COLOR;
+      ctx.fill();
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    branches.forEach((b, idx) => {
+      b.y += b.speed;
+      b.x += b.drift;
+
+      // Add a segment/node periodically
+      if (b.y >= b.nextSegmentY) {
+        const newX = b.x + (Math.random() - 0.5) * 60;
+        b.segments.push({ x: newX, y: b.y });
+        b.nodes.push({ x: newX, y: b.y });
+        b.nextSegmentY = b.y + 80 + Math.random() * 80;
+        b.x = newX;
+      }
+
+      // Keep only visible segments + a small buffer
+      const topVisible = -100;
+      b.segments = b.segments.filter((s) => s.y > topVisible);
+      b.nodes = b.nodes.filter((n) => n.y > topVisible);
+
+      drawBranch(b);
+
+      // Reset branch when it goes off screen
+      if (b.y > canvas.height + 100) {
+        branches[idx] = createBranch();
+      }
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});

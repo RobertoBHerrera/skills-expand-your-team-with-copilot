@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryFilters = document.querySelectorAll(".category-filter");
   const dayFilters = document.querySelectorAll(".day-filter");
   const timeFilters = document.querySelectorAll(".time-filter");
+  const groupByFilters = document.querySelectorAll(".group-by-filter");
 
   // Authentication elements
   const loginButton = document.getElementById("login-button");
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
+  let currentGroupBy = "";
 
   // Authentication state
   let currentUser = null;
@@ -466,14 +468,65 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Display filtered activities
-    Object.entries(filteredActivities).forEach(([name, details]) => {
-      renderActivityCard(name, details);
-    });
+    // Display filtered activities (with optional grouping)
+    if (currentGroupBy === "category") {
+      // Group by category
+      const groups = {};
+      Object.entries(filteredActivities).forEach(([name, details]) => {
+        const type = getActivityType(name, details.description);
+        const label = activityTypes[type].label;
+        if (!groups[label]) groups[label] = [];
+        groups[label].push([name, details]);
+      });
+
+      // Render each group
+      Object.keys(groups).sort().forEach((groupLabel) => {
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "activity-group";
+        groupDiv.innerHTML = `<div class="activity-group-header">${groupLabel}</div>`;
+        const grid = document.createElement("div");
+        grid.className = "activity-group-grid";
+        groups[groupLabel].forEach(([name, details]) => {
+          renderActivityCard(name, details, grid);
+        });
+        groupDiv.appendChild(grid);
+        activitiesList.appendChild(groupDiv);
+      });
+    } else if (currentGroupBy === "day") {
+      // Group by day (use day order)
+      const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      const groups = {};
+      Object.entries(filteredActivities).forEach(([name, details]) => {
+        const days = details.schedule_details ? details.schedule_details.days : [];
+        days.forEach((day) => {
+          if (!groups[day]) groups[day] = new Set();
+          groups[day].add(name);
+        });
+      });
+
+      // Render each day group in order
+      dayOrder.filter((day) => groups[day]).forEach((day) => {
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "activity-group";
+        groupDiv.innerHTML = `<div class="activity-group-header">${day}</div>`;
+        const grid = document.createElement("div");
+        grid.className = "activity-group-grid";
+        groups[day].forEach((name) => {
+          renderActivityCard(name, filteredActivities[name], grid);
+        });
+        groupDiv.appendChild(grid);
+        activitiesList.appendChild(groupDiv);
+      });
+    } else {
+      // No grouping - display as flat grid
+      Object.entries(filteredActivities).forEach(([name, details]) => {
+        renderActivityCard(name, details);
+      });
+    }
   }
 
   // Function to render a single activity card
-  function renderActivityCard(name, details) {
+  function renderActivityCard(name, details, container) {
     const activityCard = document.createElement("div");
     activityCard.className = "activity-card";
 
@@ -587,7 +640,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    activitiesList.appendChild(activityCard);
+    (container || activitiesList).appendChild(activityCard);
   }
 
   // Event listeners for search and filter
@@ -638,6 +691,20 @@ document.addEventListener("DOMContentLoaded", () => {
       // Update current time filter and fetch activities
       currentTimeRange = button.dataset.time;
       fetchActivities();
+    });
+  });
+
+  // Add event listeners for group-by buttons
+  groupByFilters.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Update active class
+      groupByFilters.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Update current group-by option and re-display activities
+      // (no re-fetch needed since grouping is client-side only)
+      currentGroupBy = button.dataset.group;
+      displayFilteredActivities();
     });
   });
 

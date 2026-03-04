@@ -1,0 +1,71 @@
+name: Bug Report
+description: Report something on the Mergington High School activities website that is broken or not working as expected.
+title: "Bug: [Short Description]"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to report a bug or something that is not working correctly on the website. The more detail you provide, the faster it can be fixed.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe what went wrong. What did you see on the screen?
+      placeholder: "e.g., When I click the 'Register' button for Chess Club, nothing happens and no confirmation message appears."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+      description: Describe what you expected to see or happen instead.
+      placeholder: "e.g., I expected to see a success message confirming the student was registered."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: List the exact steps someone else can follow to see the same problem.
+      placeholder: |
+        1. Go to the activities page.
+        2. Click the 'Register' button for Chess Club.
+        3. Enter a student email and submit the form.
+        4. Observe that no confirmation message appears.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser (if applicable)
+      description: Which browser were you using when you saw this bug?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+        - Not applicable
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Additional Details
+      description: If you have a screenshot or any other details that might help, add them here.
+      placeholder: "Optional: paste a screenshot or add any extra context."
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this bug has been fixed?
+      value: |
+        - [ ] The described behavior no longer occurs.
+        - [ ] The expected behavior works correctly.
+    validations:
+      required: true

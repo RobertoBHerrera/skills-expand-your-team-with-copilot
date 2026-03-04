@@ -1,0 +1,65 @@
+name: Feature Request
+description: Suggest a new feature or improvement to the Mergington High School activities website.
+title: "Feature: [Short Description]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to suggest a new feature or improvement. Please be as specific as possible so the request can be understood and implemented without needing additional clarification.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this feature solve?
+      description: Describe the current situation and why it is a problem or inconvenience.
+      placeholder: "e.g., Teachers currently have no way to see which students have signed up for activities without looking at the backend."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe what you would like to see added or changed. Include as much detail as possible.
+      placeholder: "e.g., Add a 'View Participants' button on each activity card that shows a list of signed-up students when clicked. This button should only be visible to logged-in teachers."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: List the specific things that must be true for this feature to be considered complete.
+      placeholder: |
+        - [ ] A 'View Participants' button appears on each activity card when a teacher is logged in.
+        - [ ] Clicking the button shows a list of student emails who have signed up.
+        - [ ] The button is not visible to students (non-logged-in users).
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low — nice to have
+        - Medium — would noticeably improve things
+        - High — this is causing real problems
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you thought of other ways to solve this problem? What are the pros and cons?
+      placeholder: "Optional: e.g., We considered exporting a CSV report, but a live view on the website would be more convenient."
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information, screenshots, or examples that would help explain this request.
+      placeholder: "Optional: add any extra details, mockups, or references here."

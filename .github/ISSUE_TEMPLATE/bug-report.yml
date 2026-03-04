@@ -1,0 +1,76 @@
+name: "Bug Report"
+description: "Report something in the system that is not working correctly."
+title: "Bug: [Short description]"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to report a problem with the Mergington High School activity system. The more detail you provide, the faster the issue can be resolved.
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What went wrong?
+      description: Describe the problem clearly. What did you see that was unexpected?
+      placeholder: "e.g. When I try to sign up a student for Chess Club, the page shows an error message and the student is not added."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: List the exact steps someone else can follow to see the same problem.
+      placeholder: |
+        1. Open the activity list page.
+        2. Click "Sign Up" next to Chess Club.
+        3. Enter the student email address.
+        4. Click "Submit".
+        5. Error message appears.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What should have happened instead?
+      placeholder: "e.g. The student should be added to the Chess Club participant list and the count should increase by 1."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected Area
+      description: Which part of the system is affected?
+      options:
+        - "Activity list (viewing activities)"
+        - "Sign-up / registration"
+        - "Teacher login"
+        - "Adding or editing activities (teacher view)"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will you know this bug is fixed?
+      value: |
+        - [ ] The described steps no longer produce an error.
+        - [ ] The system behaves as described in "Expected Behavior".
+        - [ ] No other parts of the system are broken by the fix.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Anything else that might help — browser used, screenshots, error messages, etc.
+      placeholder: "e.g. This happens in Chrome but not in Firefox. Screenshot attached."
+    validations:
+      required: false

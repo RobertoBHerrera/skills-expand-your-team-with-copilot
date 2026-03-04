@@ -1,0 +1,101 @@
+name: "Add New Activity"
+description: "Request a new extracurricular activity to be added to the Mergington High School system."
+title: "Add activity: [Activity Name]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request a new extracurricular activity. Please fill in all fields so the request can be handled without any follow-up questions.
+
+  - type: input
+    id: activity_name
+    attributes:
+      label: Activity Name
+      description: The full name of the activity as it should appear in the system.
+      placeholder: "e.g. Photography Club"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Activity Description
+      description: A short description of the activity that students will see when browsing.
+      placeholder: "e.g. Learn photography techniques and go on photo walks around campus."
+    validations:
+      required: true
+
+  - type: input
+    id: schedule
+    attributes:
+      label: Schedule (human-readable)
+      description: The schedule in a friendly format that will be shown to students.
+      placeholder: "e.g. Tuesdays and Thursdays, 3:30 PM - 5:00 PM"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: days
+    attributes:
+      label: Days of the Week
+      description: Select all days on which this activity meets.
+      multiple: true
+      options:
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+        - Sunday
+    validations:
+      required: true
+
+  - type: input
+    id: start_time
+    attributes:
+      label: Start Time (24-hour format)
+      description: The time the activity starts, in HH:MM format.
+      placeholder: "e.g. 15:30"
+    validations:
+      required: true
+
+  - type: input
+    id: end_time
+    attributes:
+      label: End Time (24-hour format)
+      description: The time the activity ends, in HH:MM format.
+      placeholder: "e.g. 17:00"
+    validations:
+      required: true
+
+  - type: input
+    id: max_participants
+    attributes:
+      label: Maximum Number of Participants
+      description: The maximum number of students that can sign up for this activity.
+      placeholder: "e.g. 20"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will you know this change is complete and correct?
+      value: |
+        - [ ] The new activity appears in the activity list on the main page.
+        - [ ] Students can sign up for the activity (up to the maximum participant limit).
+        - [ ] The activity shows the correct name, description, schedule, and max participants.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other information, such as the supervising teacher or room number.
+      placeholder: "e.g. Supervised by Ms. Johnson in room 204."
+    validations:
+      required: false

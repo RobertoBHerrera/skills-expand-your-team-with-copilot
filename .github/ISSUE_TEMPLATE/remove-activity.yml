@@ -1,0 +1,56 @@
+name: Remove Activity
+description: Request an extracurricular activity to be removed from the Mergington High School system.
+title: "Remove activity: [Activity Name]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request that an activity be removed from the website. Please provide a reason so we can keep a record of the change.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: The exact name of the activity to remove (as shown on the website).
+      placeholder: "e.g., Drama Club"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Removal
+      description: Why should this activity be removed? (e.g., cancelled, replaced by another activity, no longer offered)
+      placeholder: "e.g., This activity is no longer being offered due to the supervising teacher leaving."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      description: Please confirm before submitting.
+      options:
+        - label: I confirm that this activity should be permanently removed from the website.
+          required: true
+        - label: I understand that all current sign-ups for this activity will also be removed.
+          required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this request has been completed successfully?
+      value: |
+        - [ ] The activity no longer appears in the activities list on the website.
+        - [ ] Attempting to sign up for the removed activity returns an appropriate error.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information relevant to this removal (e.g., replacement activity planned, affected students notified).
+      placeholder: "Optional: add any extra details here."

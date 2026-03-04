@@ -1,0 +1,59 @@
+name: "Remove Activity"
+description: "Request that an existing extracurricular activity be removed from the system."
+title: "Remove activity: [Activity Name]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request that an activity be permanently removed from the Mergington High School system. Please confirm all details before submitting — this action cannot be undone.
+
+  - type: input
+    id: activity_name
+    attributes:
+      label: Activity Name
+      description: The exact name of the activity to remove (must match what is shown in the system).
+      placeholder: "e.g. Sunday Chess Tournament"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Removal
+      description: Briefly explain why the activity should be removed.
+      placeholder: "e.g. This activity is no longer running due to lack of a supervising teacher."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: confirmed
+    attributes:
+      label: Confirmed Removal
+      description: Please confirm that you want this activity permanently removed.
+      options:
+        - "Yes, I confirm this activity should be removed"
+        - "No, I am not sure yet"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will you know this change is complete and correct?
+      value: |
+        - [ ] The activity no longer appears in the activity list.
+        - [ ] Students can no longer sign up for the activity.
+        - [ ] No other activities are affected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information (e.g. what to do with students already enrolled).
+      placeholder: "e.g. The 12 students already signed up have been notified by email."
+    validations:
+      required: false

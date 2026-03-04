@@ -664,3 +664,143 @@ footer {
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
+
+/* View Toggle Bar */
+.view-toggle-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.view-toggle-btn {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-toggle-btn.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.view-toggle-btn:hover:not(.active) {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+/* Calendar View */
+.calendar-active {
+  display: block !important;
+}
+
+.calendar-view {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.calendar-grid {
+  display: flex;
+  min-width: 560px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cal-time-column {
+  width: 48px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+}
+
+.cal-day-column {
+  flex: 1;
+  min-width: 0;
+  border-right: 1px solid var(--border);
+}
+
+.cal-day-column:last-child {
+  border-right: none;
+}
+
+.cal-day-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 6px 2px;
+  color: var(--primary-text);
+  background-color: var(--primary);
+  border-bottom: 2px solid var(--primary-dark);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.cal-time-body {
+  position: relative;
+}
+
+.cal-time-label {
+  position: absolute;
+  right: 4px;
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  transform: translateY(-50%);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.cal-day-body {
+  position: relative;
+  background-color: var(--surface);
+}
+
+.cal-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border-light);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cal-activity-block {
+  position: absolute;
+  border-radius: 3px;
+  padding: 2px 4px;
+  overflow: hidden;
+  border-left: 3px solid;
+  font-size: 0.68rem;
+  cursor: default;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  z-index: 1;
+  transition: opacity 0.15s ease, z-index 0s;
+}
+
+.cal-activity-block:hover {
+  opacity: 0.85;
+  z-index: 10;
+}
+
+.cal-activity-name {
+  display: block;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.cal-activity-enrollment {
+  display: block;
+  font-size: 0.6rem;
+  opacity: 0.8;
+  line-height: 1.2;
+}

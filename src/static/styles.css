@@ -30,6 +30,28 @@
   --error-light: #ffebee;
   --info: #0c5460;
   --info-light: #d1ecf1;
+  --activity-tag-bg: #e8eaf6;
+  --activity-tag-color: #3949ab;
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --background: #1a1a2e;
+  --surface: #16213e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0b0;
+  --border: #2a2a4a;
+  --border-light: #222244;
+  --border-focus: #3a3a5a;
+  --primary: #534bae;
+  --primary-light: #7b74c8;
+  --primary-dark: #1a237e;
+  --success-light: #1b3a1c;
+  --warning-light: #3a2a00;
+  --error-light: #3a1010;
+  --info-light: #0a2a30;
+  --activity-tag-bg: #2a2a5a;
+  --activity-tag-color: #a0a8ff;
 }
 
 * {
@@ -195,8 +217,8 @@ section h3 {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: #e8eaf6;
-  color: #3949ab;
+  background: var(--activity-tag-bg);
+  color: var(--activity-tag-color);
   font-size: 0.65rem;
   font-weight: bold;
   padding: 2px 6px;
@@ -492,6 +514,8 @@ footer {
   border-radius: 20px 0 0 20px;
   font-size: 0.85rem;
   transition: all 0.3s ease;
+  background-color: var(--surface);
+  color: var(--text-primary);
 }
 
 .search-box input:focus {
@@ -612,6 +636,11 @@ footer {
   }
 }
 
+#dark-mode-toggle {
+  font-size: 1.1rem;
+  padding: 4px 10px;
+}
+
 /* User controls in header */
 #user-controls {
   position: absolute;
@@ -663,4 +692,13 @@ footer {
 
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode: form inputs */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="password"] {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
 }

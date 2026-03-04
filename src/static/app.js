@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     arts: { label: "Arts", color: "#f3e5f5", textColor: "#7b1fa2" },
     academic: { label: "Academic", color: "#e3f2fd", textColor: "#1565c0" },
     community: { label: "Community", color: "#fff3e0", textColor: "#e65100" },
-    technology: { label: "Technology", color: "#e8eaf6", textColor: "#3949ab" },
+    technology: { label: "Technology", color: "#e8f5e9", textColor: "#1e7a2e" },
   };
 
   // State for activities and filters
@@ -866,3 +866,137 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeFilters();
   fetchActivities();
 });
+
+// Animated Git branch lines background
+(function initGitBranchAnimation() {
+  const canvas = document.getElementById("git-branches-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  const BRANCH_COLOR = "#39a845";
+  const NODE_COLOR = "#39a845";
+  const NUM_BRANCHES = 6;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Each branch: a vertical "rail" with commit nodes and child branches
+  const branches = [];
+
+  function createBranch(x, startY, speed, nodeSpacing, color) {
+    return {
+      x,
+      y: startY,
+      speed,
+      nodeSpacing,
+      color,
+      nodes: [], // y positions of commit nodes
+      lastNodeY: startY,
+    };
+  }
+
+  // Create evenly spaced vertical branches
+  for (let i = 0; i < NUM_BRANCHES; i++) {
+    const x = (canvas.width / (NUM_BRANCHES + 1)) * (i + 1);
+    const speed = 0.3 + Math.random() * 0.4;
+    const nodeSpacing = 80 + Math.random() * 60;
+    const startY = -Math.random() * 400;
+    branches.push(createBranch(x, startY, speed, nodeSpacing, BRANCH_COLOR));
+  }
+
+  // Merge connections: pairs of branch indices that have a merge arc
+  const mergeConnections = [];
+  for (let i = 0; i < NUM_BRANCHES - 1; i++) {
+    if (Math.random() > 0.5) {
+      mergeConnections.push({
+        from: i,
+        to: i + 1,
+        progress: Math.random(),
+        speed: 0.002 + Math.random() * 0.003,
+        nodeIndexFrom: 0,
+        nodeIndexTo: 0,
+      });
+    }
+  }
+
+  function drawBranch(branch) {
+    ctx.strokeStyle = branch.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(branch.x, 0);
+    ctx.lineTo(branch.x, canvas.height);
+    ctx.stroke();
+
+    // Draw commit nodes
+    branch.nodes.forEach((nodeY) => {
+      ctx.beginPath();
+      ctx.arc(branch.x, nodeY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = NODE_COLOR;
+      ctx.fill();
+      ctx.strokeStyle = branch.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  }
+
+  function drawMergeArc(b1, b2, y1, y2) {
+    if (y1 === undefined || y2 === undefined) return;
+    const cp1x = (b1.x + b2.x) / 2;
+    const cp1y = (y1 + y2) / 2 - 30;
+    ctx.beginPath();
+    ctx.moveTo(b1.x, y1);
+    ctx.quadraticCurveTo(cp1x, cp1y, b2.x, y2);
+    ctx.strokeStyle = b1.color;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  let offset = 0;
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    offset += 0.4;
+
+    branches.forEach((branch, i) => {
+      // Add new nodes as offset grows
+      while (branch.lastNodeY < canvas.height + offset + branch.nodeSpacing) {
+        branch.lastNodeY += branch.nodeSpacing;
+        branch.nodes.push(branch.lastNodeY);
+      }
+      // Remove nodes that have scrolled far above
+      branch.nodes = branch.nodes.filter(
+        (y) => y - offset > -50
+      );
+
+      ctx.save();
+      ctx.translate(0, -offset * branch.speed);
+      drawBranch(branch);
+      ctx.restore();
+    });
+
+    // Draw merge arcs between adjacent branches
+    mergeConnections.forEach((conn) => {
+      const b1 = branches[conn.from];
+      const b2 = branches[conn.to];
+      if (!b1 || !b2 || b1.nodes.length === 0 || b2.nodes.length === 0) return;
+      const ni1 = Math.floor(conn.progress * b1.nodes.length) % b1.nodes.length;
+      const ni2 = Math.floor(conn.progress * b2.nodes.length) % b2.nodes.length;
+      const y1 = b1.nodes[ni1] - offset * b1.speed;
+      const y2 = b2.nodes[ni2] - offset * b2.speed;
+      drawMergeArc(b1, b2, y1, y2);
+
+      conn.progress += conn.speed;
+      if (conn.progress > 1) conn.progress = 0;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
